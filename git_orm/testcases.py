@@ -25,11 +25,11 @@ class GitTestCase:
         for name in path:
             assert_in(name, tree)
             entry = tree[name]
-            ok_(entry.filemode & stat.S_IFDIR)
+            ok_(entry.attributes & stat.S_IFDIR)
             tree = entry.to_object()
         assert_in(filename, tree)
         entry = tree[filename]
-        ok_(entry.filemode & stat.S_IFREG)
+        ok_(entry.attributes & stat.S_IFREG)
 
     def assert_commit_count(self, expected_count):
         try:
