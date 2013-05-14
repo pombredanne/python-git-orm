@@ -10,7 +10,7 @@ repository.
 INSTALLATION:
 
 Compile libgit2[1] from source or install it via your distributions package
-manager. Currently git-orm is tested with libgit2 version 0.18.0.
+manager. Currently git-orm is tested with libgit2 version 0.17.0.
 Afterwards execute the setup script (root permissions might be needed):
 
     $ ./setup.py install
