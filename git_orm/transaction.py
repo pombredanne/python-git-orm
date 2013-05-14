@@ -33,7 +33,7 @@ class Transaction:
                 tree = []
                 if name in memory_tree.tree:
                     entry = memory_tree.tree[name]
-                    if entry.attributes & stat.S_IFDIR:
+                    if entry.filemode & stat.S_IFDIR:
                         tree = entry.to_object()
                 memory_tree.childs[name] = MemoryTree(tree, {}, {})
             memory_tree = memory_tree.childs[name]
@@ -55,7 +55,7 @@ class Transaction:
             content = memory_tree.blobs[filename]
         elif filename in memory_tree.tree:
             entry = memory_tree.tree[filename]
-            if entry.attributes & stat.S_IFREG:
+            if entry.filemode & stat.S_IFREG:
                 content = entry.to_object().data
         if content is None:
             raise GitError('blob not found')
@@ -72,7 +72,7 @@ class Transaction:
         memory_tree = self.get_memory_tree(path)
         names = set(memory_tree.blobs.keys())
         for entry in memory_tree.tree:
-            if entry.attributes & stat.S_IFREG:
+            if entry.filemode & stat.S_IFREG:
                 names.add(entry.name)
         return set(map(unquote_filename, names))
 
@@ -110,7 +110,7 @@ class Transaction:
     def _store_objects(self, memory_tree):
         treebuilder = self.repo.TreeBuilder()
         for entry in memory_tree.tree:
-            treebuilder.insert(entry.name, entry.oid, entry.attributes)
+            treebuilder.insert(entry.name, entry.oid, entry.filemode)
         for name, content in memory_tree.blobs.items():
             blob_id = self.repo.create_blob(content)
             treebuilder.insert(name, blob_id, stat.S_IFREG | 0o644)
