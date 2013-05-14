@@ -36,9 +36,3 @@ def set_remote(value):
 
 def get_remote():
     return _remote
-
-def get_config(name):
-    repo = _repository
-    if repo is None:
-        raise GitError('no repository found')
-    return repo.config[name]
