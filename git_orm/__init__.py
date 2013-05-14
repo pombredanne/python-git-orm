@@ -1,6 +1,3 @@
-from pygit2 import discover_repository, Repository
-
-
 __version__ = '0.1a0'
 __author__ = 'Martin Natano <natano@natano.net>'
 
@@ -13,6 +10,7 @@ _remote = 'origin'
 class GitError(Exception): pass
 
 def set_repository(value):
+    from pygit2 import discover_repository, Repository
     global _repository
     try:
         path = discover_repository(value)
