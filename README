@@ -49,6 +49,7 @@ Every non-trivial code should have according tests.
 AUTHORS & CONTRIBUTORS:
 
 Martin Natano <natano@natano.net>
+Andreas Kopecky <andreas.kopecky@gmail.com>
 
 
 [1] https://github.com/libgit2/libgit2
