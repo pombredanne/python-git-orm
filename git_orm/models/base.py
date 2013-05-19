@@ -79,7 +79,13 @@ class Model(metaclass=ModelBase):
                 raise TypeError('invalid keyword argument \'{}\''.format(name))
 
     def __repr__(self):
-        return '<{}: {}>'.format(self.__class__.__name__, self.pk)
+        try:
+            fn = getattr(self, 'get_{}_display'.format(self._meta.pk.name))
+        except AttributeError:
+            pk_display = self.pk
+        else:
+            pk_display = fn()
+        return '<{}: {}>'.format(self.__class__.__name__, pk_display)
 
     def __str__(self):
         return '{} {}'.format(self.__class__.__name__, self.pk)
