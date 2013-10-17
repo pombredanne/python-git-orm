@@ -4,8 +4,10 @@ from git_orm import GitError, get_remote, get_branch, get_repository
 
 
 def fetch():
-    cmd = ['git', 'fetch', get_remote(),
-        'refs/heads/{0}:refs/remotes/origin/{0}'.format(get_branch())]
+    cmd = [
+        'git', 'fetch', get_remote(),
+        'refs/heads/{0}:refs/remotes/origin/{0}'.format(get_branch()),
+    ]
     p = Popen(cmd, cwd=get_repository().workdir)
     status = p.wait()
     if status:
@@ -13,8 +15,10 @@ def fetch():
 
 
 def push():
-    cmd = ['git', 'push', get_remote(),
-        'refs/heads/{0}:refs/heads/{0}'.format(get_branch())]
+    cmd = [
+        'git', 'push', get_remote(),
+        'refs/heads/{0}:refs/heads/{0}'.format(get_branch()),
+    ]
     p = Popen(cmd, cwd=get_repository().workdir)
     status = p.wait()
     if status:
