@@ -33,8 +33,8 @@ class Transaction:
                 tree = []
                 if name in memory_tree.tree:
                     entry = memory_tree.tree[name]
-                    if entry.attributes & stat.S_IFDIR:
-                        tree = entry.to_object()
+                    if entry.filemode & stat.S_IFDIR:
+                        tree = self.repo[entry.oid]
                 memory_tree.childs[name] = MemoryTree(tree, {}, {})
             memory_tree = memory_tree.childs[name]
         return memory_tree
@@ -55,8 +55,8 @@ class Transaction:
             content = memory_tree.blobs[filename]
         elif filename in memory_tree.tree:
             entry = memory_tree.tree[filename]
-            if entry.attributes & stat.S_IFREG:
-                content = entry.to_object().data
+            if entry.filemode & stat.S_IFREG:
+                content = self.repo[entry.oid].data
         if content is None:
             raise GitError('blob not found')
         return content
@@ -72,7 +72,7 @@ class Transaction:
         memory_tree = self.get_memory_tree(path)
         names = set(memory_tree.blobs.keys())
         for entry in memory_tree.tree:
-            if entry.attributes & stat.S_IFREG:
+            if entry.filemode & stat.S_IFREG:
                 names.add(entry.name)
         return set(map(unquote_filename, names))
 
@@ -91,8 +91,8 @@ class Transaction:
             tree = commit.tree
             try:
                 for part in path:
-                    tree = tree[part].to_object()
-                entry = tree[filename].to_object()
+                    tree = self.repo[tree[part].oid]
+                entry = self.repo[tree[filename].oid]
             except KeyError:
                 continue
             if not previous_oid == entry.oid:
@@ -110,7 +110,7 @@ class Transaction:
     def _store_objects(self, memory_tree):
         treebuilder = self.repo.TreeBuilder()
         for entry in memory_tree.tree:
-            treebuilder.insert(entry.name, entry.oid, entry.attributes)
+            treebuilder.insert(entry.name, entry.oid, entry.filemode)
         for name, content in memory_tree.blobs.items():
             blob_id = self.repo.create_blob(content)
             treebuilder.insert(name, blob_id, stat.S_IFREG | 0o644)
@@ -161,7 +161,7 @@ def begin():
         raise GitError('no repository found')
     ref = 'refs/heads/{}'.format(get_branch())
     try:
-        parents = [repo.lookup_reference(ref).oid]
+        parents = [repo.lookup_reference(ref).target]
     except KeyError:
         parents = []
     _transaction = Transaction(repo, parents)

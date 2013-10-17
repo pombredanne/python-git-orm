@@ -19,21 +19,20 @@ class GitTestCase:
         shutil.rmtree(self.repo.workdir)
 
     def assert_file_exists(self, filename):
-        oid = self.repo.lookup_reference(self.branchref).oid
-        tree = self.repo[oid].tree
+        tree = self.repo.lookup_reference(self.branchref).get_object().tree
         *path, filename = filename.split('/')
         for name in path:
             assert_in(name, tree)
             entry = tree[name]
-            ok_(entry.attributes & stat.S_IFDIR)
-            tree = entry.to_object()
+            ok_(entry.filemode & stat.S_IFDIR)
+            tree = self.repo[entry.oid]
         assert_in(filename, tree)
         entry = tree[filename]
-        ok_(entry.attributes & stat.S_IFREG)
+        ok_(entry.filemode & stat.S_IFREG)
 
     def assert_commit_count(self, expected_count):
         try:
-            oid = self.repo.lookup_reference(self.branchref).oid
+            oid = self.repo.lookup_reference(self.branchref).target
         except KeyError:
             count = 0
         else:
