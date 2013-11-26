@@ -1,4 +1,3 @@
-
                                 -=} Git ORM {=-
                           Git Object-Relational Mapper
 
