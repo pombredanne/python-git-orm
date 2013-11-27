@@ -2,20 +2,22 @@
 
 ###Git Object-Relational Mapper
 
-
 Git-orm provides a django model like interface for storing objects in a git
 repository.
 
 
 ###INSTALLATION:
 
-Compile libgit2[1] from source or install it via your distributions package
-manager. Currently git-orm is tested with libgit2 version 0.20.0.
-Afterwards execute the setup script (root permissions might be needed):
+Compile [libgit2](https://github.com/libgit2/libgit2) from source or install it
+via your distributions package manager. Currently git-orm is tested with
+libgit2 version 0.20.0. Afterwards execute the setup script (root permissions
+might be needed):
 
     $ ./setup.py install
 
+
 ###USAGE:
+
 ```python
 
 from datetime import datetime
@@ -55,13 +57,14 @@ article.created_at
 article.updated_at
 ```
 
+
 ###HACKING:
 
-PEP 8[2] should be followed for every new code.
-An exception to this rule is when creating custom exceptions (no pun intended).
-The pass keyword should appear on the same line as the class keyword when no
-methods are overwritten in the subclass. So multiple custom exceptions may be
-declared without wasting screen space.
+[PEP 8](http://www.python.org/dev/peps/pep-0008/) should be followed for every
+new code. An exception to this rule is when creating custom exceptions (no pun
+intended). The pass keyword should appear on the same line as the class
+keyword when no methods are overwritten in the subclass. So multiple custom
+exceptions may be declared without wasting screen space.
 e.g.:
 
 ```python
@@ -89,11 +92,6 @@ Every non-trivial code should have according tests.
 
 ###AUTHORS & CONTRIBUTORS:
 
-Martin Natano <natano@natano.net>
-
-Andreas Kopecky <andreas.kopecky@gmail.com>
-
-
-[1] https://github.com/libgit2/libgit2
-
-[2] http://www.python.org/dev/peps/pep-0008/
+* Martin Natano <natano@natano.net>
+* Andreas Kopecky <andreas.kopecky@gmail.com>
+* TJ Kells <tjkells@gmail.com>
