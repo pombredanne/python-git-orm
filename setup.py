@@ -28,7 +28,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Development Status :: 3 - Alpha',
     ],
-    install_requires=['pygit2==0.20.0', 'distribute'],
+    install_requires=['pygit2==0.20.0'],
     tests_require=['nose', 'mock'],
     test_suite='nose.collector',
 )
