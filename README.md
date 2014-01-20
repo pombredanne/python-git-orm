@@ -3,7 +3,7 @@
 ###Git Object-Relational Mapper
 
 Git-orm provides a django model like interface for storing objects in a git
-repository.
+repository. Git-orm does currently support python 3.2 and 3.3.
 
 
 ###INSTALLATION:
@@ -11,7 +11,7 @@ repository.
 Compile [libgit2](https://github.com/libgit2/libgit2) from source or install it
 via your distributions package manager. Currently git-orm is tested with
 libgit2 version 0.20.0. Afterwards execute the setup script (root permissions
-might be needed):
+might be required):
 
     $ ./setup.py install
 
